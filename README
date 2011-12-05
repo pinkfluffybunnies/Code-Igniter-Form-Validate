@@ -1,0 +1,75 @@
+     PROJECT: Code Igniter Form Validator
+      AUTHOR: Rik Davis
+RELEASE DATE: 2011-12-04
+     VERSION: 1.0.0
+
+This project was originally inspired by Perl's DFV (DataFormValidator) module.
+Many attempts were made to try to align with the Perl module, but in the end this
+project pretty much is similar, but has its own unique differences from the original
+Perl module.
+
+INSTALLATION:
+Installing this library is actually quite simple. Just download the source files and
+then upload them into the following directories:
+Validate.php -> CI Base Directory/application/libraries/
+validate_rules.php -> CI Base Directory/application/config
+
+You have two ways to instantiate using the library. If you plan to use the form validation
+more often than not, then you can add it to your config/autoload.php 'libraries' array and
+it will globally. If you only intend to use it for certain pages, then it might be more
+performance efficient to load it only on the pages where it will be used. (Recommended)
+
+Loading it selectively is just a matter of using the following line in your controllers;
+
+$this->load->library('validate');
+
+It's your choice where, in your controller, that you do this, but I find that loading it in
+the constructor is easiest. Obviously, you can load it at the method level also, but that means
+you have very localized instances of it rather than scoped to the entire controller.
+
+>> Creating the rules file
+If the library file is the heart of the validation system, then the rules file is the brain that
+controls that heart. Sounds backwards, but without rules, what good is a validation system, right?
+
+Okay. So, the provided rules file is one that I presently am using for a site and figured that it
+would provide a good base for others to use for building their own.
+
+Your rules file consists of a single or multiple arrays of rules. If you open the file, you can see
+how the first ruleset is entitled, $config['rules']['login'] followed by an array of arrays of the
+actual rules I wish to use for my login form. As you can see, the elements of the login array are
+two arrays. Order of the array elements is not critical since all arrays use key/value pairs to
+identify their elements.
+
+Each array breaks down as follows;
+
+form field |        required 0=no, 1=yes | Display name for errors  |  regular expression validation rule
+------------------------------------------------------------------------------------------------------------
+'login_id' => array('required' => 1,       'field' => 'Login ID',     'regex' => '^[A-Za-z\s]{6,32}$'),
+
+So, what I have is the actual form field I wish to validate is called login_id.
+It is required. When an error is present, the user will be notified with the field display name of Login ID.
+And the rule the field must pass to be considered valid is the regex listed above.
+
+If you don't understand regular expressions, there are numerous good references you can find on google or
+your search engine of choice.
+
+USAGE:
+Using the validation library is fairly simple once you've defined your rules. A basic set up would roughly
+follow these guidelines;
+1) Define your rules based off the form input names you defined in your view file.
+2) Instantiate your library class as described in the installation section.
+3) Add validation logic to your controller.
+4) Handle & display validation errors to the user.
+5) Re-populate certain form fields with the user's supplied entries so they don't have to type everything over.
+6) Upon submission with no validation errors, process the input as desired.
+
+I've included an example controller and view file for the sake of giving better descriptive examples.
+I have not actually ran them, but they are scaled back versions of actual working controller and view code
+I presently am using.
+
+I commented the controller so that you can see what's taking place and such. I didn't comment the view's
+markup though as that is probably not necessary for brevity's sake. But if you study the controller, it
+should hopefully make sense.
+
+So, that's everything so far. This is my first release of public code, so if this doc or the file comments
+are not that of traditional commenting format, I apologize.
